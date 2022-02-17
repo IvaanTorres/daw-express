@@ -1,6 +1,4 @@
 import mongoose from 'mongoose'
-import { Author, AuthorSchema } from './Author'
-import { CommentSchema, Comment } from './Comment'
 
 //! INTERFACES
 //* Exporting the interface, we can use it everywhere
@@ -8,8 +6,6 @@ interface Book extends mongoose.Document {
   title: String
   editorial: String
   price: Number
-  author: Author
-  comments: Comment[]
 }
 
 //! SCHEMA
@@ -30,8 +26,6 @@ const BookSchema = new mongoose.Schema({
     trim: true,
     min: 0,
   },
-  author: AuthorSchema, //! Para subdocumentos hay que usar el Schema apropiado
-  comments: [CommentSchema],
 })
 
 //* Using the Schema, we create a MongoDB Collection called 'books' which will follow the requirements
