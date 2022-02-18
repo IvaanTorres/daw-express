@@ -23,8 +23,8 @@ router.post('/', async (req, res) => {
   try {
     const { title, editorial, price } = req.body
     const book = new BookModel({ title, editorial, price })
-    const bookPosted = await book.save()
-    res.status(201).json(bookPosted)
+    const postedBook = await book.save()
+    res.status(201).json(postedBook)
   } catch (error) {
     return res.status(500).json(error)
   }
@@ -34,22 +34,22 @@ router.put('/:id', async (req, res) => {
   try {
     const { title, editorial, price } = req.body
 
-    const bookUpdated = await BookModel.findByIdAndUpdate(
+    const updatedBook = await BookModel.findByIdAndUpdate(
       req.params.id,
       { title, editorial, price },
       { new: true } //We say we want to fetch the updated book and not the old one
     )
-    if (!bookUpdated) return res.status(404).json({ message: 'Book not found' }) //In case of sending ID of 10 chars
-    return res.status(201).json(bookUpdated)
+    if (!updatedBook) return res.status(404).json({ message: 'Book not found' }) //In case of sending ID of 10 chars
+    return res.status(201).json(updatedBook)
   } catch (error) {
     return res.status(500).json(error)
   }
 })
 router.delete('/:id', async (req, res) => {
   try {
-    const bookDeleted = await BookModel.findByIdAndDelete(req.params.id)
-    if (!bookDeleted) return res.status(404).json({ message: 'Book not found' }) //In case of sending ID of 10 chars
-    return res.status(201).json(bookDeleted)
+    const deletedBook = await BookModel.findByIdAndDelete(req.params.id)
+    if (!deletedBook) return res.status(404).json({ message: 'Book not found' }) //In case of sending ID of 10 chars
+    return res.status(201).json(deletedBook)
   } catch (error) {
     return res.status(500).json(error)
   }
