@@ -7,6 +7,9 @@ const app = express()
 //! MIDDLEWARES
 app.use(morgan('dev'))
 app.use(express.json()) //Transform data to JSON before dealing with it
+/* app.use((req, res, next) => {
+  console.log('Not working currently...')
+}) */
 
 //! ROUTER
 app.use('/api/books', bookRoutes)
