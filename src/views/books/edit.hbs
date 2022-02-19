@@ -1,0 +1,10 @@
+{{#if book}}
+  <form action='/books/{{book._id}}' method='post'>
+    <input type='hidden' name='_method' value='PUT' />
+    <input type='text' name='title' id='' value='{{book.title}}' />
+    <input type='text' name='authorName' id='' value='{{book.author.name}}' />
+    <input type='text' name='editorial' id='' value='{{book.editorial}}' />
+    <input type='text' name='price' id='' value='{{book.price}}' />
+    <button class='btn btn-primary' type='submit'>Update</button>
+  </form>
+{{/if}}

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 class IndexController {
   /**
-   * Display a listing of the resource.
+   * Display Index
    *
    * @param req Request
    * @param res Response
@@ -13,7 +13,7 @@ class IndexController {
   }
 
   /**
-   * Display a listing of the resource.
+   * Display Error.
    *
    * @param req Request
    * @param res Response

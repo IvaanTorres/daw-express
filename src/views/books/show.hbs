@@ -1,0 +1,11 @@
+{{#if book}}
+  <h2>Title: {{book.title}}</h2>
+  <p>Author: {{book.author.name}}</p>
+  <p>Editorial: {{book.editorial}}</p>
+  <p>Price: {{book.price}}€</p>
+  <form action='/books/{{book._id}}' method='post'>
+    <a href='/books/{{book._id}}/edit' class='btn btn-secondary'>Update</a>
+    <input type='hidden' name='_method' value='DELETE' />
+    <button class='btn btn-danger' type='submit'>Delete</button>
+  </form>
+{{/if}}

@@ -2,9 +2,13 @@ import express from 'express'
 import morgan from 'morgan'
 import { engine } from 'express-handlebars'
 import path from 'path'
+import methodOverride from 'method-override'
+
+//! ROUTES
 import bookRoutes from './routes/book'
 import authorRoutes from './routes/author'
 import indexRoutes from './routes/index'
+
 const app = express()
 
 //! SETTINGS
@@ -27,6 +31,17 @@ app.enable('view cache') //Enable cache when using views
 app.use(morgan('dev'))
 app.use(express.json()) //Transform data to JSON before dealing with it
 app.use(express.urlencoded({ extended: false })) //Makes readable form data sent from client
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      var method = req.body._method
+      delete req.body._method
+      return method
+    }
+  })
+)
+
 /* app.use((req, res, next) => {
   console.log('Not working currently...')
 }) */

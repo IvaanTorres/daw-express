@@ -3,16 +3,18 @@
     <meta charset='UTF-8' />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Document</title>
+    <title>BStory - {{title}}</title>
     <link
       rel='stylesheet'
       href='https://bootswatch.com/5/lumen/bootstrap.min.css'
     />
-    <link rel="stylesheet" href="css/main.css"> {{!-- The link starts according the express.static function --}}
+    <link rel="stylesheet" href="/css/main.css"> {{!-- The link starts according the express.static function --}}
   </head>
   <body class="l-hamburger">
     {{> nav}}
-    {{{body}}}
+    <div class="container p-4">
+      {{{body}}}
+    </div>
     {{> footer}}
   </body>
 </html>
