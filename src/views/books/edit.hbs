@@ -1,10 +1,48 @@
 {{#if book}}
-  <form action='/books/{{book._id}}' method='post'>
+  <form
+    class='col-md-5 mx-auto card card-body'
+    action='/books/{{book._id}}'
+    method='post'
+  >
     <input type='hidden' name='_method' value='PUT' />
-    <input type='text' name='title' id='' value='{{book.title}}' />
-    <input type='text' name='authorName' id='' value='{{book.author.name}}' />
-    <input type='text' name='editorial' id='' value='{{book.editorial}}' />
-    <input type='text' name='price' id='' value='{{book.price}}' />
-    <button class='btn btn-primary' type='submit'>Update</button>
+
+    <h2 class='text-center mb-4'>Update Book</h2>
+    <div class='form-group mb-2'>
+      <label for='title'>Title:</label>
+      <input
+        class='form-control'
+        type='text'
+        name='title'
+        value='{{book.title}}'
+      />
+    </div>
+    <div class='form-group mb-2'>
+      <label for='authorName'>Author Name:</label>
+      <input
+        class='form-control'
+        type='text'
+        name='authorName'
+        value='{{book.author.name}}'
+      />
+    </div>
+    <div class='form-group mb-2'>
+      <label for='editorial'>Editorial:</label>
+      <input
+        class='form-control'
+        type='text'
+        name='editorial'
+        value='{{book.editorial}}'
+      />
+    </div>
+    <div class='form-group mb-4'>
+      <label for='price'>Price:</label>
+      <input
+        class='form-control'
+        type='text'
+        name='price'
+        value='{{book.price}}'
+      />
+    </div>
+    <button class='btn btn-primary btn-block' type='submit'>Update</button>
   </form>
 {{/if}}
