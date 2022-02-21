@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { Request, Response } from 'express'
 
 //! MODELS
@@ -5,7 +6,7 @@ import { UserModel } from '../models/Auth'
 
 class AuthController {
   /**
-   * Display the login form.
+   * Display the register form.
    *
    * @param req Request
    * @param res Response
@@ -19,7 +20,7 @@ class AuthController {
     }
   }
   /**
-   * Display the login form.
+   * Register.
    *
    * @param req Request
    * @param res Response
@@ -36,9 +37,10 @@ class AuthController {
           title: 'Error',
           error: 'Username already taken',
         })
+      const hashPassword = await bcrypt.hash(password, 10)
       const newUser = new UserModel({
         user: user,
-        password: password,
+        password: hashPassword,
         role: '0',
       })
       await newUser.save()
@@ -75,9 +77,9 @@ class AuthController {
       const { user, password } = req.body
       const userFound = await UserModel.findOne({
         user: user,
-        password: password,
       })
-      if (userFound != null) {
+      const match = await bcrypt.compare(password, userFound?.password)
+      if (userFound != null && match) {
         req.session.user = user
         req.session.role = userFound.role
         res.redirect('/')
