@@ -7,7 +7,6 @@ import session from 'express-session'
 
 //! ROUTES
 import bookRoutes from './routes/book'
-import authorRoutes from './routes/author'
 import indexRoutes from './routes/index'
 import authRoutes from './routes/auth'
 
@@ -70,7 +69,6 @@ app.use((req, res, next) => {
 app.use('/', indexRoutes)
 app.use('/auth', authRoutes)
 app.use('/books', bookRoutes)
-app.use('/authors', authorRoutes)
 
 //! STATIC FILES
 app.use(express.static(path.join(__dirname + '/public/'))) //CSS & JS will be there so any file can access

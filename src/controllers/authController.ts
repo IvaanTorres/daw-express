@@ -1,9 +1,53 @@
 import { Request, Response } from 'express'
 
 //! MODELS
-import { userModel } from '../models/Auth'
+import { UserModel } from '../models/Auth'
 
 class AuthController {
+  /**
+   * Display the login form.
+   *
+   * @param req Request
+   * @param res Response
+   * @return Template view (render)
+   */
+  public showRegister(req: Request, res: Response) {
+    try {
+      res.status(200).render('auth/register', { title: 'Register' })
+    } catch (error) {
+      res.status(500).render('error', { error })
+    }
+  }
+  /**
+   * Display the login form.
+   *
+   * @param req Request
+   * @param res Response
+   * @return Template view (render)
+   */
+  public async register(req: Request, res: Response) {
+    try {
+      const { user, password } = req.body
+      const searchedUser = await UserModel.findOne({
+        user: user,
+      })
+      if (searchedUser)
+        return res.status(500).render('auth/register', {
+          title: 'Error',
+          error: 'Username already taken',
+        })
+      const newUser = new UserModel({
+        user: user,
+        password: password,
+        role: '0',
+      })
+      await newUser.save()
+      res.redirect('/auth/login')
+    } catch (error) {
+      res.status(500).render('error', { error })
+    }
+  }
+
   /**
    * Display the login form.
    *
@@ -29,7 +73,7 @@ class AuthController {
   public async login(req: Request, res: Response) {
     try {
       const { user, password } = req.body
-      const userFound = await userModel.findOne({
+      const userFound = await UserModel.findOne({
         user: user,
         password: password,
       })
