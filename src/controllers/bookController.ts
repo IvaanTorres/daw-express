@@ -14,9 +14,9 @@ class BookController {
   public async index(req: Request, res: Response): Promise<void> {
     try {
       const books: Book[] = await BookModel.find().lean() //? .lean() makes the arr of JSON Obj and not of Mongoose Obj
-      res.render('books/index', { title: 'Book List', books })
+      res.status(200).render('books/index', { title: 'Book List', books })
     } catch (error) {
-      res.render('error', { title: 'ERROR', error: error })
+      res.status(500).render('error', { title: 'Error', error })
     }
   }
 
@@ -30,9 +30,9 @@ class BookController {
   public async show(req: Request, res: Response) {
     try {
       const book = await BookModel.findById(req.params.id).lean()
-      res.render('books/show', { title: 'Book Details', book })
+      res.status(200).render('books/show', { title: 'Book Details', book })
     } catch (error) {
-      res.render('error', { error })
+      res.status(500).render('error', { title: 'Error', error })
     }
   }
 
@@ -44,7 +44,11 @@ class BookController {
    * @return Template view (render)
    */
   public create(req: Request, res: Response) {
-    res.status(200).render('books/create')
+    try {
+      res.status(200).render('books/create')
+    } catch (error) {
+      res.status(500).render('error', { title: 'Error', error })
+    }
   }
 
   /**
@@ -83,10 +87,12 @@ class BookController {
     try {
       const book = await BookModel.findById(req.params.id).lean()
       if (!book)
-        return res.status(404).render('error', { error: 'Book Not Found' })
+        return res
+          .status(404)
+          .render('error', { title: 'Error', error: 'Book Not Found' })
       res.status(200).render('books/edit', { book })
     } catch (error) {
-      res.status(500).render('error', { error })
+      res.status(500).render('error', { title: 'Error', error })
     }
   }
 
@@ -115,7 +121,7 @@ class BookController {
       )
       res.status(201).redirect('/books')
     } catch (error) {
-      res.status(500).render('error', { error })
+      res.status(500).render('error', { title: 'Error', error })
     }
   }
 
@@ -130,10 +136,12 @@ class BookController {
     try {
       const book = await BookModel.findByIdAndDelete(req.params.id)
       if (!book)
-        return res.status(404).render('error', { error: 'Book Not Found' })
+        return res
+          .status(404)
+          .render('error', { title: 'Error', error: 'Book Not Found' })
       res.redirect('/books')
     } catch (error) {
-      res.status(500).render('error', { error })
+      res.status(500).render('error', { title: 'Error', error })
     }
   }
 }

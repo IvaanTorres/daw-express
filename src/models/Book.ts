@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import { Author, AuthorSchema } from './Author'
-import { CommentSchema, Comment } from './Comment'
 
 //! INTERFACES
 //* When we create a new Book Obj, we'll have autocomplete
@@ -9,7 +8,6 @@ interface Book extends mongoose.Document {
   editorial: String
   price: Number
   author: Author
-  comments: Comment[]
 }
 
 //! SCHEMA
@@ -31,7 +29,6 @@ const BookSchema = new mongoose.Schema({
     min: 0,
   },
   author: AuthorSchema, //! Para subdocumentos hay que usar el Schema apropiado
-  comments: [CommentSchema],
 })
 
 //* Using the Schema, we create a MongoDB Collection called 'books' which will follow the requirements

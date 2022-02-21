@@ -3,11 +3,13 @@ import morgan from 'morgan'
 import { engine } from 'express-handlebars'
 import path from 'path'
 import methodOverride from 'method-override'
+import session from 'express-session'
 
 //! ROUTES
 import bookRoutes from './routes/book'
 import authorRoutes from './routes/author'
 import indexRoutes from './routes/index'
+import authRoutes from './routes/auth'
 
 const app = express()
 
@@ -29,8 +31,8 @@ app.enable('view cache') //Enable cache when using views
 
 //! MIDDLEWARES
 app.use(morgan('dev'))
-app.use(express.json()) //Transform data to JSON before dealing with it
 app.use(express.urlencoded({ extended: false })) //Makes readable form data sent from client
+app.use(express.json()) //Transform data to JSON before dealing with it
 app.use(
   methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -41,13 +43,32 @@ app.use(
     }
   })
 )
-
+//Redeclare SESSION Variables in order to make them usable inside the code
+declare module 'express-session' {
+  export interface SessionData {
+    user: { [key: string]: any }
+    role: { [key: string]: any }
+  }
+}
+app.use(
+  session({
+    secret: '1234',
+    resave: true,
+    saveUninitialized: false,
+  })
+)
+//Make SESSIONS local to use them in views
+app.use((req, res, next) => {
+  res.locals.session = req.session
+  next()
+})
 /* app.use((req, res, next) => {
   console.log('Not working currently...')
 }) */
 
 //! ROUTER
 app.use('/', indexRoutes)
+app.use('/auth', authRoutes)
 app.use('/books', bookRoutes)
 app.use('/authors', authorRoutes)
 

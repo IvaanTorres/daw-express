@@ -9,7 +9,11 @@ class IndexController {
    * @return Template view (render)
    */
   public index(req: Request, res: Response) {
-    res.render('index')
+    try {
+      res.status(200).render('index', { title: 'Welcome' })
+    } catch (error) {
+      res.status(500).render('error', { error })
+    }
   }
 
   /**
@@ -20,7 +24,11 @@ class IndexController {
    * @return Template view (render)
    */
   public error(req: Request, res: Response) {
-    res.render('error')
+    try {
+      res.status(200).render('error')
+    } catch (error) {
+      res.status(500).render('error', { error })
+    }
   }
 }
 

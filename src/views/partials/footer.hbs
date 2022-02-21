@@ -13,6 +13,17 @@
           href='/books/add'
           class='nav-link px-2 text-muted'
         >New Book</a></li>
+      {{#if session.user}}
+        <li class='nav-item'><a
+            href='/auth/logout'
+            class='nav-link px-2 text-muted'
+          >Logout</a></li>
+      {{else}}
+        <li class='nav-item'><a
+            href='/auth/login'
+            class='nav-link px-2 text-muted'
+          >Login</a></li>
+      {{/if}}
     </ul>
     <p class='text-center text-muted'>&copy; 2022 BStory</p>
   </footer>
